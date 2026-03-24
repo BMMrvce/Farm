@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Invoice - Farm Dispatch</title>
+  <style>
+    :root { --bg:#f8f6ef; --card:#fff; --ink:#2c2c24; --muted:#66695c; --accent:#b36b00; --border:#ebe2ce; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,sans-serif; background:var(--bg); color:var(--ink); }
+    .sheet { width:min(960px,calc(100% - 24px)); margin:16px auto; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; }
+    .head { display:flex; justify-content:space-between; gap:16px; border-bottom:2px solid var(--accent); padding-bottom:12px; margin-bottom:14px; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; color:#8a5000; }
+    .brand img { width:34px; height:34px; }
+    h1 { margin:0; font-size:1.35rem; }
+    .small { color:var(--muted); font-size:0.9rem; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-bottom:12px; }
+    .box { border:1px solid var(--border); border-radius:8px; padding:10px; }
+    table { width:100%; border-collapse:collapse; font-size:0.92rem; }
+    th,td { border:1px solid var(--border); padding:8px; text-align:left; }
+    th { background:#fff8e8; }
+    .totals { width:360px; margin-left:auto; margin-top:12px; }
+    .notes { margin-top:14px; border:1px solid var(--border); border-radius:8px; padding:10px; }
+    @page { size:A4; margin:10mm; }
+    @media print {
+      body { background:#fff; }
+      .sheet { border:none; border-radius:0; margin:0; width:100%; padding:0; }
+      * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    }
+    @media (max-width:760px) { .grid { grid-template-columns:1fr; } .totals { width:100%; } }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="head">
+      <div>
+        <div class="brand"><img src="assets/farmops-logo.svg" alt="FarmOps logo" /><span>FarmOps Agri Dispatch Suite</span></div>
+        <h1>Dispatch Sales Invoice</h1>
+        <div class="small">Farm Produce / Flower Dispatch Billing</div>
+      </div>
+      <div class="small">
+        Invoice No: DSP-2026-3231<br />
+        Date: 2026-03-23<br />
+        Dispatch Ref: DISP-MAR-23-EOD
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <b>Seller (Farm Unit)</b><br />
+        Unit Name: Marathipalya Floriculture Unit<br />
+        Location: Bommashettihalli, Bengaluru Rural<br />
+        Contact: +91-9000000011
+      </div>
+      <div class="box">
+        <b>Buyer</b><br />
+        Buyer Name: Sai Flowers Trading Co.<br />
+        Contact Person: Vamshi R.<br />
+        Address: KR Market Yard, Bengaluru
+      </div>
+      <div class="box">
+        <b>Logistics</b><br />
+        Vehicle No: KA-04-AB-6721<br />
+        Driver Name: Mahesh K<br />
+        Dispatch Time: 16:20
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>#</th><th>Product</th><th>Farm Source</th><th>Qty</th><th>Unit</th><th>Rate (INR)</th><th>Amount (INR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Rose</td><td>Marathipalya</td><td>10,500</td><td>Stems</td><td>2.50</td><td>26,250.00</td></tr>
+        <tr><td>2</td><td>Limonium</td><td>Doddaballapura</td><td>5,300</td><td>Bundles</td><td>4.00</td><td>21,200.00</td></tr>
+        <tr><td>3</td><td>Gerbera</td><td>Hallipur</td><td>2,400</td><td>Stems</td><td>3.20</td><td>7,680.00</td></tr>
+      </tbody>
+    </table>
+
+    <table class="totals">
+      <tr><td>Gross Total</td><td>55,130.00</td></tr>
+      <tr><td>Transport / Handling</td><td>1,500.00</td></tr>
+      <tr><td>Tax</td><td>0.00</td></tr>
+      <tr><td>Net Payable</td><td><b>56,630.00</b></td></tr>
+    </table>
+
+    <div class="notes">
+      <b>Notes</b>
+      <ul>
+        <li>Farm-wise entries are separated and matched to dispatch logs.</li>
+        <li>Consolidated end-of-day summary prepared for manager dashboard.</li>
+        <li>This is a demo invoice generated using transcript-derived sample operations data.</li>
+      </ul>
+      Authorized Signature (Seller): ____________________<br />
+      Authorized Signature (Buyer): ____________________
+    </div>
+  </div>
+</body>
+</html>

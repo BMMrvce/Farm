@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FarmOps Demo Hub</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@500;600&display=swap");
+
+    :root {
+      --bg-1: #eef7e8;
+      --bg-2: #f8ae01;
+      --ink: #15311f;
+      --muted: #4f6558;
+      --card: #ffffff;
+      --line: #dce8d7;
+      --green: #2f9e44;
+      --gold: #b36b00;
+      --shadow: 0 12px 26px rgba(20, 43, 30, 0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 5%, rgba(47, 158, 68, 0.12), transparent 26%),
+        radial-gradient(circle at 90% 0%, rgba(179, 107, 0, 0.1), transparent 24%),
+        linear-gradient(130deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1280px, calc(100% - 30px));
+      margin: 18px auto 32px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero {
+      border-radius: 22px;
+      color: #f8fff5;
+      background: linear-gradient(130deg, #11321d, #2f9e44 55%, #71d98d);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.13);
+      right: -120px;
+      top: -150px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .brand img { width: 34px; height: 34px; }
+
+    h1 {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+    }
+
+    .sub {
+      margin: 8px 0 0;
+      max-width: 920px;
+      line-height: 1.4;
+      opacity: 0.95;
+    }
+
+    .quick {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quick a {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      color: #f3fff2;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    .quick a:hover { background: rgba(255, 255, 255, 0.24); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px minmax(0, 1fr);
+      gap: 16px;
+      min-height: 700px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .panel h2 {
+      margin: 2px 0 10px;
+      font-size: 1.04rem;
+      font-family: "IBM Plex Serif", Georgia, serif;
+    }
+
+    .docs {
+      display: grid;
+      gap: 10px;
+      max-height: 640px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .doc {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      background: #fbfffa;
+    }
+
+    .doc h3 {
+      margin: 0;
+      font-size: 0.96rem;
+    }
+
+    .meta {
+      margin-top: 5px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .desc {
+      margin-top: 7px;
+      font-size: 0.87rem;
+      color: #31473a;
+      line-height: 1.35;
+    }
+
+    .actions {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 9px;
+      border: 1px solid transparent;
+    }
+
+    .btn-preview {
+      background: #e8ffea;
+      color: #1f6f2f;
+      border-color: #b9e8bf;
+    }
+
+    .btn-open {
+      background: #fff2df;
+      color: #8a5100;
+      border-color: #efcc99;
+    }
+
+    .preview-wrap {
+      display: grid;
+      gap: 10px;
+      grid-template-rows: auto 1fr;
+      min-height: 640px;
+    }
+
+    .preview-head {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 11px;
+      background: #f7fff5;
+      color: #335044;
+      font-size: 0.88rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .preview-head a {
+      color: #1a6f2a;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .info-note {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1060px) {
+      .layout { grid-template-columns: 1fr; min-height: auto; }
+      .docs { max-height: none; }
+      .preview-wrap { min-height: 560px; }
+    }
+
+    @media (max-width: 620px) {
+      .wrap { width: calc(100% - 16px); margin-top: 8px; }
+      .hero, .panel { padding: 12px; }
+      .preview-wrap { min-height: 480px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="brand">
+        <img src="assets/farmops-logo.svg" alt="FarmOps logo" />
+        <span>FarmOps Demo Hub</span>
+      </div>
+      <h1>Single-Screen Click-Through Preview</h1>
+      <p class="sub">
+        Browse all requirement reports and invoice artifacts from one screen. Use "Preview here" for inline viewing,
+        or "Open file" to print/export directly.
+      </p>
+      <div class="quick">
+        <a href="../requirements-dashboard.html">Open Requirement Dashboard</a>
+      </div>
+    </section>
+
+    <section class="layout">
+      <aside class="panel">
+        <h2>Documents</h2>
+        <div class="docs">
+          <article class="doc">
+            <h3>Executive Requirement Report</h3>
+            <div class="meta">File: 10-executive-requirement-report-print.html | Type: Printable HTML</div>
+            <div class="desc">Client-ready executive requirement summary with print-friendly layout.</div>
+            <div class="actions">
+              <a class="btn btn-preview" href="#" data-target="10-executive-requirement-report-print.html">Preview here</a>
+              <a class="btn btn-open" href="10-executive-requirement-report-print.html" target="_blank">Open file</a>
+            </div>
+          </article>
+
+
+          <article class="doc">
+            <h3>Daily Operations Demo</h3>
+            <div class="meta">File: 11-daily-operations-report-demo-print.html | Type: Printable HTML</div>
+            <div class="desc">Auto-filled daily printable report with incidents, labor, and dispatch details.</div>
+            <div class="actions">
+              <a class="btn btn-preview" href="#" data-target="11-daily-operations-report-demo-print.html">Preview here</a>
+              <a class="btn btn-open" href="11-daily-operations-report-demo-print.html" target="_blank">Open file</a>
+            </div>
+          </article>
+
+          <article class="doc">
+            <h3>Weekly Consolidated Demo</h3>
+            <div class="meta">File: 12-weekly-consolidated-report-demo-print.html | Type: Printable HTML</div>
+            <div class="desc">Weekly printable report including WhatsApp data to consolidated report mapping.</div>
+            <div class="actions">
+              <a class="btn btn-preview" href="#" data-target="12-weekly-consolidated-report-demo-print.html">Preview here</a>
+              <a class="btn btn-open" href="12-weekly-consolidated-report-demo-print.html" target="_blank">Open file</a>
+            </div>
+          </article>
+
+          <article class="doc">
+            <h3>Software Invoice Demo</h3>
+            <div class="meta">File: 08-invoice-demo-software-service.html | Type: HTML</div>
+            <div class="desc">Auto-filled demo invoice for presenting software billing flow.</div>
+            <div class="actions">
+              <a class="btn btn-preview" href="#" data-target="08-invoice-demo-software-service.html">Preview here</a>
+              <a class="btn btn-open" href="08-invoice-demo-software-service.html" target="_blank">Open file</a>
+            </div>
+          </article>
+
+          <article class="doc">
+            <h3>Dispatch Invoice Demo</h3>
+            <div class="meta">File: 09-invoice-demo-farm-dispatch.html | Type: HTML</div>
+            <div class="desc">Auto-filled demo invoice for end-of-day dispatch billing showcase.</div>
+            <div class="actions">
+              <a class="btn btn-preview" href="#" data-target="09-invoice-demo-farm-dispatch.html">Preview here</a>
+              <a class="btn btn-open" href="09-invoice-demo-farm-dispatch.html" target="_blank">Open file</a>
+            </div>
+          </article>
+        </div>
+      </aside>
+
+      <section class="panel preview-wrap">
+        <div>
+          <div class="preview-head">
+            <span id="currentLabel">Inline preview: 08-invoice-demo-software-service.html</span>
+            <a id="openCurrent" href="08-invoice-demo-software-service.html" target="_blank">Open current document</a>
+          </div>
+          <div class="info-note">
+            All client-facing artifacts here are printable HTML.
+          </div>
+        </div>
+        <iframe id="viewer" src="08-invoice-demo-software-service.html" title="Demo document preview"></iframe>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const links = document.querySelectorAll(".btn-preview");
+      const viewer = document.getElementById("viewer");
+      const currentLabel = document.getElementById("currentLabel");
+      const openCurrent = document.getElementById("openCurrent");
+
+      links.forEach(function (link) {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = link.getAttribute("data-target");
+          if (!target) return;
+          viewer.setAttribute("src", target);
+          currentLabel.textContent = "Inline preview: " + target;
+          openCurrent.setAttribute("href", target);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

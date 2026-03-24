@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Invoice - Software Services</title>
+  <style>
+    :root { --bg:#f4f7f2; --card:#fff; --ink:#1e2b20; --muted:#4f5e54; --accent:#2f9e44; --border:#dfe8da; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,sans-serif; background:var(--bg); color:var(--ink); }
+    .sheet { width:min(900px,calc(100% - 24px)); margin:16px auto; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; }
+    .head { display:flex; justify-content:space-between; gap:16px; border-bottom:2px solid var(--accent); padding-bottom:12px; margin-bottom:14px; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; color:#1f5f2b; }
+    .brand img { width:34px; height:34px; }
+    h1 { margin:0; font-size:1.4rem; }
+    .small { color:var(--muted); font-size:0.9rem; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-bottom:12px; }
+    .box { border:1px solid var(--border); border-radius:10px; padding:10px; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; font-size:0.93rem; }
+    th,td { border:1px solid var(--border); padding:8px; text-align:left; vertical-align:top; }
+    th { background:#f1f8ee; }
+    .totals { width:320px; margin-left:auto; margin-top:12px; }
+    .totals td:first-child { font-weight:600; }
+    .foot { margin-top:16px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    @page { size:A4; margin:10mm; }
+    @media print {
+      body { background:#fff; }
+      .sheet { border:none; border-radius:0; margin:0; width:100%; padding:0; }
+      * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    }
+    @media (max-width:680px) { .grid,.foot { grid-template-columns:1fr; } .totals { width:100%; } }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="head">
+      <div>
+        <div class="brand"><img src="assets/farmops-logo.svg" alt="FarmOps logo" /><span>FarmOps Digital Solutions</span></div>
+        <h1>Tax Invoice</h1>
+        <div class="small">Software Services and Support Billing</div>
+      </div>
+      <div class="small">
+        Invoice No: INV-2026-0323<br />
+        Invoice Date: 2026-03-23<br />
+        Due Date: 2026-04-07
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <b>From</b><br />
+        FarmOps Digital Solutions Pvt Ltd<br />
+        2nd Floor, Green Tech Park, Bengaluru<br />
+        Karnataka, India - 560001<br />
+        GSTIN: 29ABCDE1234F1Z5
+      </div>
+      <div class="box">
+        <b>Bill To</b><br />
+        Bloom Valley Farms Pvt Ltd<br />
+        Attn: Assistant Manager - Operations<br />
+        Doddaballapura Road, Bengaluru Rural<br />
+        GSTIN: 29AAACB2222K1Z8
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>#</th><th>Description</th><th>Period</th><th>Qty</th><th>Rate (INR)</th><th>Amount (INR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>FarmOps dashboard subscription (50 users)</td><td>Mar 2026</td><td>1</td><td>40,000.00</td><td>40,000.00</td></tr>
+        <tr><td>2</td><td>AI interaction summarization module</td><td>Mar 2026</td><td>1</td><td>15,000.00</td><td>15,000.00</td></tr>
+        <tr><td>3</td><td>Configuration and onboarding services</td><td>One-time</td><td>1</td><td>25,000.00</td><td>25,000.00</td></tr>
+      </tbody>
+    </table>
+
+    <table class="totals">
+      <tr><td>Subtotal</td><td>80,000.00</td></tr>
+      <tr><td>CGST (9%)</td><td>7,200.00</td></tr>
+      <tr><td>SGST (9%)</td><td>7,200.00</td></tr>
+      <tr><td>Total</td><td><b>94,400.00</b></td></tr>
+    </table>
+
+    <div class="foot">
+      <div class="box">
+        <b>Bank Details</b><br />
+        Account Name: FarmOps Digital Solutions Pvt Ltd<br />
+        Bank: State Bank of India<br />
+        Account No: 392002340112<br />
+        IFSC: SBIN0001234
+      </div>
+      <div class="box">
+        <b>Terms</b>
+        <ul>
+          <li>Payment due within 15 days.</li>
+          <li>Support SLA as per agreement.</li>
+          <li>This is a demo document generated from transcript-driven requirement analysis.</li>
+        </ul>
+        Authorized Signatory: ____________________
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Operations Report - Print</title>
+  <style>
+    :root { --bg:#f7fbf5; --card:#fff; --ink:#1c3124; --muted:#4f6455; --accent:#2f9e44; --line:#d9e7d7; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,sans-serif; background:var(--bg); color:var(--ink); }
+    .page { width:min(980px,calc(100% - 24px)); margin:16px auto; background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px; }
+    .head { display:flex; justify-content:space-between; gap:12px; border-bottom:2px solid var(--accent); padding-bottom:10px; margin-bottom:12px; }
+    .brand { display:flex; align-items:center; gap:9px; font-weight:700; color:#226d35; }
+    .brand img { width:32px; height:32px; }
+    h1 { margin:0; font-size:1.35rem; }
+    .small { color:var(--muted); font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.92rem; margin-top:10px; }
+    th,td { border:1px solid var(--line); padding:8px; text-align:left; vertical-align:top; }
+    th { background:#eef9ed; }
+    h2 { margin:14px 0 8px; font-size:1.03rem; }
+    @page { size:A4; margin:10mm; }
+    @media print { body { background:#fff; } .page { border:none; border-radius:0; margin:0; width:100%; padding:0; } * { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="head">
+      <div>
+        <div class="brand"><img src="assets/farmops-logo.svg" alt="FarmOps logo" /><span>FarmOps Daily Print</span></div>
+        <h1>Daily Farm Operations Report</h1>
+      </div>
+      <div class="small">Date: 2026-03-23<br />Farm: Marathipalya Unit<br />Prepared By: Supervisor</div>
+    </section>
+
+    <h2>Daily Snapshot</h2>
+    <table>
+      <tbody>
+        <tr><th>Total workers (L)</th><td>22</td><th>Total workers (G)</th><td>31</td></tr>
+        <tr><th>Dispatch total</th><td>15,800</td><th>Open incidents</th><td>3</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Priority Incidents</h2>
+    <table>
+      <thead><tr><th>Severity</th><th>Issue</th><th>Action</th><th>Owner</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>High</td><td>Water not reaching one section</td><td>Valve and line check initiated</td><td>Maintenance lead</td><td>Open</td></tr>
+        <tr><td>High</td><td>Pest signs reported on flower bed</td><td>Spray dosage instruction sent</td><td>Assistant Manager</td><td>In Progress</td></tr>
+        <tr><td>Medium</td><td>PH above threshold</td><td>Correction mix and monitoring</td><td>Agronomy operator</td><td>Open</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Dispatch Summary</h2>
+    <table>
+      <thead><tr><th>Product</th><th>Quantity</th><th>Buyer</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td>Rose</td><td>10,500 stems</td><td>BGS Flowers</td><td>16:20</td></tr>
+        <tr><td>Limonium</td><td>5,300 bundles</td><td>Sai Flowers</td><td>16:20</td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

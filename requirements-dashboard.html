@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FarmOps Requirement Analysis Dashboard</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@500;600&display=swap");
+
+    :root {
+      --bg-1: #f3f8ef;
+      --bg-2: #e3f2d3;
+      --card: #ffffff;
+      --ink: #163020;
+      --muted: #4a5d50;
+      --accent: #2f9e44;
+      --accent-2: #ff9f1c;
+      --danger: #d9480f;
+      --border: #d9e6d2;
+      --shadow: 0 10px 25px rgba(14, 40, 24, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(255, 159, 28, 0.16), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(47, 158, 68, 0.2), transparent 26%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1200px, calc(100% - 32px));
+      margin: 22px auto 40px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero {
+      background: linear-gradient(140deg, #173d26, #2f9e44 58%, #69db7c);
+      border-radius: 22px;
+      padding: 24px;
+      color: #f9fff5;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      right: -100px;
+      top: -130px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+      font-family: "IBM Plex Serif", Georgia, serif;
+      letter-spacing: 0.2px;
+    }
+
+    .sub {
+      margin-top: 8px;
+      opacity: 0.95;
+      max-width: 860px;
+      line-height: 1.45;
+    }
+
+    .hero-meta {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      font-size: 0.87rem;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
+
+    .doc-links {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .doc-link {
+      color: #0d2a18;
+      background: #e8ffe6;
+      border: 1px solid #bde3ba;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .doc-link:hover {
+      background: #d7ffd3;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      animation: rise 0.45s ease both;
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 1.08rem;
+      font-family: "IBM Plex Serif", Georgia, serif;
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #f9fff6;
+    }
+
+    .metric b {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .metric small {
+      color: var(--muted);
+    }
+
+    .req-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    .req-table th,
+    .req-table td {
+      border-bottom: 1px solid #edf3ea;
+      text-align: left;
+      padding: 10px 8px;
+      vertical-align: top;
+    }
+
+    .req-table th {
+      color: #36513f;
+      font-size: 0.82rem;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .high { background: #ffe3d7; color: #8d2b06; }
+    .med { background: #fff0cc; color: #8f5c00; }
+    .low { background: #e5f8e9; color: #1d6b2e; }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      border-left: 4px solid var(--accent);
+      padding: 8px 12px;
+      background: #f8fff6;
+      border-radius: 10px;
+    }
+
+    .step b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .risk {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: flex-start;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    .risk:last-child {
+      margin-bottom: 0;
+    }
+
+    .score {
+      min-width: 48px;
+      text-align: center;
+      font-weight: 700;
+      border-radius: 8px;
+      padding: 6px;
+      color: #fff;
+    }
+
+    .s3 { background: #c92a2a; }
+    .s2 { background: #e67700; }
+    .s1 { background: #2f9e44; }
+
+    .quotes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    blockquote {
+      margin: 0;
+      border: 1px dashed #cfe2c6;
+      background: #fafff8;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.9rem;
+      color: #2e4736;
+      line-height: 1.4;
+    }
+
+    footer {
+      color: #3f5848;
+      font-size: 0.85rem;
+      text-align: center;
+      padding-top: 2px;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(8px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 980px) {
+      .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .quotes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: calc(100% - 18px);
+        margin-top: 10px;
+      }
+      .hero, .card { padding: 14px; }
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>FarmOps Requirement Analysis Dashboard</h1>
+      <p class="sub">
+        Consolidated analysis from the farm manager conversation across farm1, farm2, and farm3 transcripts.
+        The core ask is to convert unstructured voice/WhatsApp interactions into structured, actionable farm operations reports,
+        with role-based dashboards and daily decision support.
+      </p>
+      <div class="hero-meta">
+        <span class="pill">Stakeholder: Farm Manager (Assistant Manager level)</span>
+        <span class="pill">Primary Context: Multi-farm horticulture operations</span>
+        <span class="pill">Current State: WhatsApp + manual entry + fragmented tools</span>
+      </div>
+      <div class="doc-links">
+        <a class="doc-link" href="demo-docs/index.html">Open Demo Hub</a>
+        <a class="doc-link" href="demo-docs/10-executive-requirement-report-print.html">Executive Report (Print)</a>
+        <a class="doc-link" href="demo-docs/11-daily-operations-report-demo-print.html">Daily Report (Print)</a>
+        <a class="doc-link" href="demo-docs/12-weekly-consolidated-report-demo-print.html">Weekly Consolidated (Print)</a>
+        <a class="doc-link" href="demo-docs/08-invoice-demo-software-service.html">Software Invoice Demo</a>
+        <a class="doc-link" href="demo-docs/09-invoice-demo-farm-dispatch.html">Dispatch Invoice Demo</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card span-12">
+        <h2>Executive Snapshot</h2>
+        <div class="kpis">
+          <div class="metric"><b>6</b><small>Major requirement modules</small></div>
+          <div class="metric"><b>12</b><small>High-priority capabilities identified</small></div>
+          <div class="metric"><b>3</b><small>Critical integration streams (Voice, WhatsApp, Existing app)</small></div>
+          <div class="metric"><b>4</b><small>Role levels to support at minimum</small></div>
+        </div>
+      </article>
+
+      <article class="card span-8">
+        <h2>Requirement Modules</h2>
+        <table class="req-table">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>What is Needed</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Voice to Structured Notes</td>
+              <td>Record Kannada/English manager-farmer calls and auto-convert into key points and recommendation report.</td>
+              <td><span class="tag high">High</span></td>
+            </tr>
+            <tr>
+              <td>WhatsApp Intelligence</td>
+              <td>Ingest WhatsApp group updates (pest, labor, dispatch, incidents) into searchable, tagged events.</td>
+              <td><span class="tag high">High</span></td>
+            </tr>
+            <tr>
+              <td>Ops Dashboard</td>
+              <td>Evening summary dashboard with farm-wise + consolidated view, including pop-up critical alerts.</td>
+              <td><span class="tag high">High</span></td>
+            </tr>
+            <tr>
+              <td>Labor and Payment Support</td>
+              <td>Auto-calculate labor counts (ladies/gents), weekly payable summaries, and trace source messages.</td>
+              <td><span class="tag med">Medium</span></td>
+            </tr>
+            <tr>
+              <td>Dispatch and Billing Consolidation</td>
+              <td>Track multi-farm flower dispatch and produce farm-level + unified end-of-day billing sheets.</td>
+              <td><span class="tag med">Medium</span></td>
+            </tr>
+            <tr>
+              <td>Approval Workflow</td>
+              <td>Capture manager entry -> boss approval -> accounts release flow with audit trail.</td>
+              <td><span class="tag low">Phase 2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card span-4">
+        <h2>Role Hierarchy Expectations</h2>
+        <div class="timeline">
+          <div class="step">
+            <b>Farm Supervisor</b>
+            Posts field observations, labor counts, incidents.
+          </div>
+          <div class="step">
+            <b>Assistant Manager</b>
+            Responds to issues, validates actions, needs quick daily report.
+          </div>
+          <div class="step">
+            <b>State / HO Leadership</b>
+            Needs consolidated multi-farm visibility.
+          </div>
+          <div class="step">
+            <b>Accounts / Finance</b>
+            Needs approved records before payment release.
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>MVP Scope (Zone-Level First)</h2>
+        <div class="timeline">
+          <div class="step"><b>1. Capture</b> Voice + WhatsApp messages with source metadata (farm, date, person).</div>
+          <div class="step"><b>2. Extract</b> AI summary: issue, recommendation, due action, owner, severity.</div>
+          <div class="step"><b>3. Visualize</b> Mobile-first dashboard with unresolved issues and EOD report.</div>
+          <div class="step"><b>4. Notify</b> Push critical pop-up alerts (water failure, disease, urgent task).</div>
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>Phase-2 Expansion</h2>
+        <div class="timeline">
+          <div class="step"><b>A. Finance link</b> Dispatch/billing consolidation and payout-ready summaries.</div>
+          <div class="step"><b>B. Workflow engine</b> Multi-level approvals and auditability.</div>
+          <div class="step"><b>C. Agronomy analytics</b> PH/EC trend and feed/consumption quality checks.</div>
+          <div class="step"><b>D. Integration bridge</b> Sync with existing geo-fenced application where needed.</div>
+        </div>
+      </article>
+
+      <article class="card span-5">
+        <h2>Top Risks and Mitigations</h2>
+        <div class="risk">
+          <div>
+            <b>Mixed-language transcription errors</b>
+            <div>Need Kannada + code-mixed domain vocabulary tuning.</div>
+          </div>
+          <span class="score s3">H</span>
+        </div>
+        <div class="risk">
+          <div>
+            <b>Message noise across many groups</b>
+            <div>Use farm-level tags and role-specific filters by default.</div>
+          </div>
+          <span class="score s2">M</span>
+        </div>
+        <div class="risk">
+          <div>
+            <b>User time constraints in field</b>
+            <div>One-tap capture and auto summaries, avoid long forms.</div>
+          </div>
+          <span class="score s2">M</span>
+        </div>
+        <div class="risk">
+          <div>
+            <b>Dependency on ongoing support</b>
+            <div>Define SLA and maintenance ownership from day one.</div>
+          </div>
+          <span class="score s1">L</span>
+        </div>
+      </article>
+
+      <article class="card span-7">
+        <h2>Success Metrics (Suggested Baseline Targets)</h2>
+        <table class="req-table">
+          <thead>
+            <tr>
+              <th>KPI</th>
+              <th>Target</th>
+              <th>Why It Matters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Conversation-to-report time</td>
+              <td>&lt; 5 min after call/message</td>
+              <td>Manager expects quick usable outputs from interaction data.</td>
+            </tr>
+            <tr>
+              <td>Critical issue alerting</td>
+              <td>&lt; 2 min for high-severity events</td>
+              <td>Live plant conditions require fast escalation.</td>
+            </tr>
+            <tr>
+              <td>Manual data entry reduction</td>
+              <td>60% reduction in first 90 days</td>
+              <td>Current process depends heavily on manual reconciliation.</td>
+            </tr>
+            <tr>
+              <td>Extraction accuracy</td>
+              <td>85%+ action-point precision</td>
+              <td>Trust in AI summary is key for adoption.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card span-12">
+        <h2>Evidence Snippets (Traceability)</h2>
+        <div class="quotes">
+          <blockquote>
+            "How you will convert that interaction into data?"<br />
+            Requirement signal: automated conversion of conversation to structured records.
+          </blockquote>
+          <blockquote>
+            "Everything is recorded in WhatsApp... evening ge report barbeku."<br />
+            Requirement signal: WhatsApp-driven daily operational reporting.
+          </blockquote>
+          <blockquote>
+            "One dashboard alli total dispatch details barbeku, but farm-wise separate barbeku."<br />
+            Requirement signal: both consolidated and segmented views.
+          </blockquote>
+          <blockquote>
+            "Problems na highlight madbeku, priority mele."<br />
+            Requirement signal: issue prioritization and action tracking.
+          </blockquote>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Source analyzed: farm interview transcripts | Prepared for requirement showcase and stakeholder review
+    </footer>
+  </main>
+</body>
+</html>

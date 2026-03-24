@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Consolidated Report - Print</title>
+  <style>
+    :root { --bg:#f8fbf6; --card:#fff; --ink:#1a2f22; --muted:#4f6455; --accent:#2f9e44; --line:#d9e7d7; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,sans-serif; background:var(--bg); color:var(--ink); }
+    .page { width:min(1020px,calc(100% - 24px)); margin:16px auto; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; }
+    .head { display:flex; justify-content:space-between; gap:12px; border-bottom:2px solid var(--accent); padding-bottom:10px; margin-bottom:12px; }
+    .brand { display:flex; align-items:center; gap:9px; font-weight:700; color:#226d35; }
+    .brand img { width:32px; height:32px; }
+    h1 { margin:0; font-size:1.35rem; }
+    h2 { margin:14px 0 8px; font-size:1.03rem; }
+    .small { color:var(--muted); font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.92rem; margin-top:10px; }
+    th,td { border:1px solid var(--line); padding:8px; text-align:left; vertical-align:top; }
+    th { background:#eff9ed; }
+    @page { size:A4; margin:10mm; }
+    @media print { body { background:#fff; } .page { border:none; border-radius:0; margin:0; width:100%; padding:0; } * { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="head">
+      <div>
+        <div class="brand"><img src="assets/farmops-logo.svg" alt="FarmOps logo" /><span>FarmOps Weekly Print</span></div>
+        <h1>Weekly Consolidated Farm Report</h1>
+      </div>
+      <div class="small">Week: W12<br />Range: 2026-03-17 to 2026-03-23<br />Region: Karnataka</div>
+    </section>
+
+    <h2>Multi-Farm Overview</h2>
+    <table>
+      <thead><tr><th>Farm</th><th>Dispatch</th><th>Open Incidents</th><th>Closed Incidents</th><th>Avg Response</th></tr></thead>
+      <tbody>
+        <tr><td>Marathipalya</td><td>98,400</td><td>4</td><td>19</td><td>42 min</td></tr>
+        <tr><td>Doddaballapura</td><td>76,250</td><td>3</td><td>15</td><td>49 min</td></tr>
+        <tr><td>Hallipur</td><td>88,900</td><td>5</td><td>17</td><td>51 min</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Incident Trend</h2>
+    <table>
+      <thead><tr><th>Category</th><th>This Week</th><th>Last Week</th><th>Trend</th></tr></thead>
+      <tbody>
+        <tr><td>Pest/Disease</td><td>13</td><td>10</td><td>Up</td></tr>
+        <tr><td>Irrigation/Water</td><td>9</td><td>11</td><td>Down</td></tr>
+        <tr><td>Labor</td><td>6</td><td>8</td><td>Down</td></tr>
+        <tr><td>Dispatch/Logistics</td><td>5</td><td>4</td><td>Up</td></tr>
+      </tbody>
+    </table>
+
+    <h2>WhatsApp Data to Consolidated Report</h2>
+    <table>
+      <thead><tr><th>WhatsApp/Event Input</th><th>Extraction</th><th>Consolidated Output</th></tr></thead>
+      <tbody>
+        <tr><td>"New pest observed on flowers" + image</td><td>Category: Pest, Severity: High, Owner: Assistant Manager</td><td>High-priority issue in daily and weekly incident summary</td></tr>
+        <tr><td>"Today labor ladies 22, gents 31"</td><td>Labor counters normalized by farm/date</td><td>Payroll-ready labor totals in weekly report</td></tr>
+        <tr><td>"Rose dispatch 10,500 to BGS"</td><td>Product, quantity, buyer, timestamp extracted</td><td>Farm-wise dispatch and consolidated dispatch table</td></tr>
+        <tr><td>"PH reading 7.8"</td><td>Parameter alert generated (threshold breach)</td><td>Agronomy exception row with action owner and status</td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

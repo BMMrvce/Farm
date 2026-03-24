@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executive Requirement Report - Print</title>
+  <style>
+    :root { --bg:#f6fbf4; --card:#fff; --ink:#1a2f22; --muted:#516556; --accent:#2f9e44; --line:#d9e7d7; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,sans-serif; background:var(--bg); color:var(--ink); }
+    .page { width:min(980px,calc(100% - 24px)); margin:16px auto; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; }
+    .head { display:flex; justify-content:space-between; gap:12px; border-bottom:2px solid var(--accent); padding-bottom:10px; margin-bottom:12px; }
+    .brand { display:flex; align-items:center; gap:9px; font-weight:700; color:#226d35; }
+    .brand img { width:32px; height:32px; }
+    h1 { margin:0; font-size:1.45rem; }
+    h2 { margin:14px 0 8px; font-size:1.05rem; }
+    p, li { line-height:1.4; color:#2a4032; }
+    .small { color:var(--muted); font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.93rem; margin-top:8px; }
+    th,td { border:1px solid var(--line); padding:8px; text-align:left; vertical-align:top; }
+    th { background:#eff9ed; }
+    .grid { display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:10px; }
+    .box { border:1px solid var(--line); border-radius:10px; padding:10px; background:#fbfffa; }
+    @page { size:A4; margin:10mm; }
+    @media print { body { background:#fff; } .page { border:none; border-radius:0; margin:0; width:100%; padding:0; } * { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+    @media (max-width: 760px) { .grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="head">
+      <div>
+        <div class="brand"><img src="assets/farmops-logo.svg" alt="FarmOps logo" /><span>FarmOps Demo</span></div>
+        <h1>Executive Requirement Analysis Report</h1>
+        <div class="small">Transcript-driven software requirement baseline</div>
+      </div>
+      <div class="small">
+        Document ID: EXE-REQ-2026-03<br />
+        Date: 2026-03-23<br />
+        Audience: Client Leadership
+      </div>
+    </section>
+
+    <h2>1. Objective</h2>
+    <p>Convert field voice interactions and WhatsApp updates into structured operational intelligence with daily and weekly consolidated reporting for multi-farm management.</p>
+
+    <h2>2. Core Requirements</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Capability</th><th>Priority</th><th>Success Signal</th></tr></thead>
+      <tbody>
+        <tr><td>FR-01</td><td>Voice/WhatsApp capture and extraction into key actions</td><td>High</td><td>Action summary in under 5 minutes</td></tr>
+        <tr><td>FR-02</td><td>Issue prioritization and alerting (pest, water, labor, dispatch)</td><td>High</td><td>Critical alert in under 2 minutes</td></tr>
+        <tr><td>FR-03</td><td>Farm-wise and consolidated report views</td><td>High</td><td>Single-click daily and weekly reports</td></tr>
+        <tr><td>FR-04</td><td>Dispatch and labor billing support</td><td>Medium</td><td>Reduced manual reconciliation effort</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Roles</h2>
+    <div class="grid">
+      <div class="box"><b>Supervisor</b><br />Field updates, incidents, labor and dispatch entries.</div>
+      <div class="box"><b>Assistant Manager</b><br />Decision making, escalation, closure and daily summary.</div>
+      <div class="box"><b>Leadership (HO/VP)</b><br />Consolidated visibility across farms and trends.</div>
+      <div class="box"><b>Finance/Accounts</b><br />Approval-linked payment and invoice traceability.</div>
+    </div>
+
+    <h2>4. KPI Targets</h2>
+    <table>
+      <thead><tr><th>KPI</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>Conversation-to-report turnaround</td><td>&lt; 5 minutes</td></tr>
+        <tr><td>Critical issue alert latency</td><td>&lt; 2 minutes</td></tr>
+        <tr><td>Manual entry reduction (90 days)</td><td>60% or better</td></tr>
+        <tr><td>Extraction precision</td><td>85% or better</td></tr>
+      </tbody>
+    </table>
+
+    <h2>5. Recommendation</h2>
+    <p>Start with a zone-level pilot using WhatsApp + voice extraction and daily consolidated reporting, then scale to multi-level approval and finance integration.</p>
+  </main>
+</body>
+</html>
