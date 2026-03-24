@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FarmOps Module Flow</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@500;600&display=swap");
+
+    :root {
+      --bg-1: #eff7ea;
+      --bg-2: #fef4df;
+      --card: #ffffff;
+      --ink: #153122;
+      --muted: #45604f;
+      --line: #d7e7d0;
+      --accent: #2f9e44;
+      --accent-2: #b36b00;
+      --shadow: 0 12px 24px rgba(21, 49, 34, 0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 7% 8%, rgba(47, 158, 68, 0.13), transparent 24%),
+        radial-gradient(circle at 92% 5%, rgba(179, 107, 0, 0.12), transparent 22%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1220px, calc(100% - 28px));
+      margin: 18px auto 36px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero {
+      border-radius: 22px;
+      padding: 22px;
+      color: #f5fff5;
+      background: linear-gradient(132deg, #143523, #2f9e44 58%, #7ddc98);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      right: -110px;
+      top: -145px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(1.45rem, 2.5vw, 2.15rem);
+      letter-spacing: 0.2px;
+    }
+
+    .sub {
+      margin-top: 8px;
+      max-width: 920px;
+      line-height: 1.43;
+      opacity: 0.95;
+    }
+
+    .quick-links {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quick-links a {
+      text-decoration: none;
+      color: #10311f;
+      background: #e9ffe7;
+      border: 1px solid #bfe6bb;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .quick-links a:hover { background: #d9ffd4; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      grid-column: span 12;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-8 { grid-column: span 8; }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 1.08rem;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(140px, 1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f9fff7;
+      min-height: 112px;
+      padding: 10px;
+      position: relative;
+    }
+
+    .flow-step b {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #1e5d31;
+    }
+
+    .flow-step p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: #2f4738;
+      line-height: 1.35;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -9px;
+      top: calc(50% - 13px);
+      color: #7a977f;
+      font-size: 1.15rem;
+      font-weight: 700;
+      background: #fff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid #edf3ea;
+      text-align: left;
+      padding: 9px 7px;
+      vertical-align: top;
+    }
+
+    th {
+      color: #355241;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+
+    .mvp { background: #e8fbe8; color: #1f6d31; }
+    .p2 { background: #fff1da; color: #8b5400; }
+
+    .track {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fbfffa;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    .track:last-child { margin-bottom: 0; }
+
+    .track b { color: #1d5f31; }
+
+    .track p {
+      margin: 6px 0 0;
+      color: #30473a;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .kpi-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #2f4738;
+      line-height: 1.5;
+    }
+
+    .kpi-list li { margin-bottom: 6px; }
+
+    .roles {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .role {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px;
+      background: #f8fff6;
+    }
+
+    .role b { color: #1d5f31; }
+
+    footer {
+      text-align: center;
+      color: #486253;
+      font-size: 0.84rem;
+      padding-top: 2px;
+    }
+
+    @media (max-width: 980px) {
+      .span-6, .span-4, .span-8 { grid-column: span 12; }
+      .roles { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: calc(100% - 14px); margin-top: 8px; }
+      .hero, .card { padding: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>FarmOps Client Module Flow</h1>
+      <p class="sub">
+        This page converts the approved requirement analysis into a full module-by-module operational flow,
+        from data capture to reporting, approval workflow, and billing support.
+      </p>
+      <div class="quick-links">
+        <a href="/requirements-dashboard.html">Requirement Dashboard</a>
+        <a href="/demo-docs/index.html">Demo Hub</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Operational Sequence</h2>
+        <div class="flow">
+          <div class="flow-step">
+            <b>1. Capture</b>
+            <p>Voice interactions, WhatsApp updates, and existing app/context data.</p>
+          </div>
+          <div class="flow-step">
+            <b>2. Understand</b>
+            <p>Transcription, language normalization, and key-point extraction.</p>
+          </div>
+          <div class="flow-step">
+            <b>3. Prioritize</b>
+            <p>Severity scoring with instant escalation for critical incidents.</p>
+          </div>
+          <div class="flow-step">
+            <b>4. Execute</b>
+            <p>Assign owner, track status, and close with evidence.</p>
+          </div>
+          <div class="flow-step">
+            <b>5. Report</b>
+            <p>Daily farm report and weekly consolidated leadership report.</p>
+          </div>
+          <div class="flow-step">
+            <b>6. Commercial</b>
+            <p>Dispatch billing and labor payout-support summaries.</p>
+          </div>
+          <div class="flow-step">
+            <b>7. Govern</b>
+            <p>Approval chain, role-based access, and audit traceability.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-8">
+        <h2>Detailed Module Flow</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Input</th>
+              <th>Output</th>
+              <th>Phase</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Voice Interaction Capture</td><td>Field calls and voice notes</td><td>Timestamped audio events</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>WhatsApp Ingestion</td><td>Group messages and media</td><td>Farm-tagged event stream</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>App Data Bridge</td><td>Existing geo-fenced app context</td><td>Unified farm/user master data</td><td><span class="pill p2">Phase 2</span></td></tr>
+            <tr><td>Transcription &amp; Language Processing</td><td>Audio events</td><td>Clean multilingual transcript</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Action Extraction Engine</td><td>Transcript + WhatsApp events</td><td>Issue, owner, action, severity</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Alert Prioritization</td><td>Structured issue records</td><td>Critical alerts and escalations</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Incident Task Lifecycle</td><td>Alerts + action items</td><td>Open/In-progress/Closed tracking</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Daily Operations Report</td><td>Incidents, labor, dispatch updates</td><td>Farm-level EOD report</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Weekly Consolidated Analytics</td><td>Daily reports from all farms</td><td>Leadership consolidated report</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Dispatch Billing Consolidation</td><td>Product dispatch logs</td><td>Farm-wise and unified invoice data</td><td><span class="pill p2">Phase 2</span></td></tr>
+            <tr><td>Labor Payment Support</td><td>Labor counts and activities</td><td>Weekly payroll-support sheet</td><td><span class="pill p2">Phase 2</span></td></tr>
+            <tr><td>Approval Workflow</td><td>Manager and finance records</td><td>Approved/pending lifecycle</td><td><span class="pill p2">Phase 2</span></td></tr>
+            <tr><td>Role-Based Dashboard</td><td>All operational modules</td><td>Supervisor/Manager/HO/Accounts views</td><td><span class="pill mvp">MVP</span></td></tr>
+            <tr><td>Audit &amp; Data Quality</td><td>System event logs</td><td>Traceability and quality status</td><td><span class="pill p2">Phase 2</span></td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card span-4">
+        <h2>Role Flow</h2>
+        <div class="roles">
+          <div class="role"><b>Supervisor</b><br />Raises field incidents, labor, and dispatch updates.</div>
+          <div class="role"><b>Assistant Manager</b><br />Reviews priorities, assigns actions, closes incidents.</div>
+          <div class="role"><b>Leadership (HO/VP)</b><br />Tracks consolidated weekly view and trends.</div>
+          <div class="role"><b>Accounts</b><br />Uses approved entries for payment release decisions.</div>
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>Client Business Tracks</h2>
+        <div class="track">
+          <b>Track A: Farmer Interaction Intelligence</b>
+          <p>Interaction capture -> transcription -> extracted key points -> recommendation report -> follow-up actions.</p>
+        </div>
+        <div class="track">
+          <b>Track B: Farm Operations Command</b>
+          <p>WhatsApp operations feed -> incidents/labor/dispatch normalization -> dashboard -> billing and approval readiness.</p>
+        </div>
+      </article>
+
+      <article class="card span-6">
+        <h2>KPI Targets</h2>
+        <ul class="kpi-list">
+          <li>Conversation-to-report turnaround: under 5 minutes.</li>
+          <li>Critical incident alert latency: under 2 minutes.</li>
+          <li>Manual data entry reduction in first 90 days: 60% or more.</li>
+          <li>Extraction precision for key action points: 85% or more.</li>
+        </ul>
+      </article>
+    </section>
+
+    <footer>
+      Prepared for client walkthrough: module flow aligned to requirement report and demo artifacts.
+    </footer>
+  </main>
+</body>
+</html>
