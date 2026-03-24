@@ -25,3 +25,4 @@ This project is configured as a static site.
 
 - `vercel.json` handles root routing and cache headers.
 - All client-facing docs are printable HTML files in `demo-docs/`.
+- Demo hub preview links use absolute `/demo-docs/...` paths to avoid iframe 404s on production URLs.
